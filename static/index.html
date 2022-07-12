@@ -56,7 +56,7 @@
       e.preventDefault();
       const title = document.getElementById("title").value;
       const message = document.getElementById("message").value;
-      fetch("http://127.0.0.1:8000/send", {
+      fetch("/send", {
         method: "POST",
         body: JSON.stringify({
           title: title,
