@@ -1,14 +1,27 @@
 from fastapi import FastAPI
 import FirebaseCloudMessaging as FCM
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+
+class requets(BaseModel):
+    title: str
+    msg: str
+
 app = FastAPI()
 
-token=['cUjA60KWRseP3zPI3DjxID:APA91bGBDrihSC6hVxxUaGbAikbn6dluZF8CYqf8eeBn69IHVh5YYHMQ4HMMXeHcPjhXXz5KgNpldo0HtbfZzAdbrFrDz9aktofLVj8uG67lOO58hTu9r-50BlFB0D6PiEHWPqOVU-F7']
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-@app.get('/send')
-async def sendNotification(title: str , msg: str):
-    response= FCM.sendPushNotification(title, msg, token)
+
+@app.post('/send')
+async def sendNotification(request: requets):
+    tokens_registrations=[]
+    await gettokens(tokens_registrations)
+    response= FCM.sendPushNotification(request.title,request.msg, tokens_registrations)
     return response
 
-@app.get('/')
-async def home():
-    return {"APP": "DANP-FCM-API"}
+app.mount("/", StaticFiles(directory="static",html = True), name="static")
+
+async def gettokens(arr):
+    tokens = FCM.db.collection('tokens').stream()
+    for token in tokens:
+        arr.append(token.to_dict()['token'])
