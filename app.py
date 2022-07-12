@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import FirebaseCloudMessaging as FCM
 app = FastAPI()
 
-token=['fOXRcYgJQb2_ZewesBIpEb:APA91bFNM9RpdUngpKWzj8CWKI4osXxscq9sV4jjgOKoT2sMP4PxzQzemhpeK2vADI9MPDWwILFzoUhidGzyiRoKX_dYvaVZpoQuDVUFyyVAZxK5Ay-VjBcoc5WZ-FrKq25VS1XmsffI']
+token=['cUjA60KWRseP3zPI3DjxID:APA91bGBDrihSC6hVxxUaGbAikbn6dluZF8CYqf8eeBn69IHVh5YYHMQ4HMMXeHcPjhXXz5KgNpldo0HtbfZzAdbrFrDz9aktofLVj8uG67lOO58hTu9r-50BlFB0D6PiEHWPqOVU-F7']
 
 @app.get('/send')
 async def sendNotification(title: str , msg: str):
